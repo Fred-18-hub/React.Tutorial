@@ -9,6 +9,7 @@ const JobListings = ({ isHome = false }) => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
+        setIsLoading(true);
         const url = isHome ? "/api/jobs?_limit=3" : "/api/jobs";
 
         const response = await fetch(url);
@@ -22,8 +23,7 @@ const JobListings = ({ isHome = false }) => {
       }
     };
 
-    setIsLoading(true);
-    setTimeout(() => fetchJobs(), 1000);
+    fetchJobs();
   }, []);
 
   return (

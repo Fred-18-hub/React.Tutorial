@@ -6,7 +6,7 @@ const JobListing = ({ job }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   let description = job.description;
-  if (!showFullDescription) {
+  if (!showFullDescription && job.description.length > 89) {
     description = job.description.substring(0, 90).trim() + "...";
   }
   return (
