@@ -1,7 +1,9 @@
-import { PokemonProvider, usePokemon } from "./store";
+import { usePokemon } from "./store";
 
 const SearchBox = () => {
-  const { searchTerm, setSearch } = usePokemon();
+  const searchTerm = usePokemon((state) => state.searchTerm);
+  const setSearch = usePokemon((state) => state.setSearch);
+
   return (
     <input
       className="mt-3 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-800 focus:ring-indigo-800 sm:text-lg p-2"
@@ -13,7 +15,8 @@ const SearchBox = () => {
 };
 
 const PokemonList = () => {
-  const { pokemon } = usePokemon();
+  const pokemon = usePokemon((state) => state.pokemon);
+
   return (
     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-3">
       {pokemon.map((p) => (
@@ -35,19 +38,15 @@ const PokemonList = () => {
   );
 };
 
-const ReactQueryAndReactLocation = ({ show = false }) => {
+const Zustand = ({ show = false }) => {
   if (!show) return <></>;
 
   return (
-    <>
-      <PokemonProvider>
-        <div className="max-w-3xl mx-auto">
-          <SearchBox />
-          <PokemonList />
-        </div>
-      </PokemonProvider>
-    </>
+    <div className="max-w-3xl mx-auto">
+      <SearchBox />
+      <PokemonList />
+    </div>
   );
 };
 
-export default ReactQueryAndReactLocation;
+export default Zustand;
