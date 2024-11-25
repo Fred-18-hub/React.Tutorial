@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useReducer,
+  useState,
 } from "react";
 
 interface Pokemon {
@@ -19,41 +19,17 @@ interface Pokemon {
   speed: number;
 }
 
-type PokemonState = {
-  pokemon: Pokemon[];
-  searchTerm: string;
-};
-
-type PokemonAction =
-  | {
-      type: "setPokemon";
-      payload: Pokemon[];
-    }
-  | { type: "searchPokemon"; payload: string };
-
 const usePokemonSource = () => {
-  const [{ pokemon, searchTerm }, dispatch] = useReducer(
-    (prevState: PokemonState, action: PokemonAction) => {
-      switch (action.type) {
-        case "setPokemon": {
-          return { ...prevState, pokemon: action.payload };
-        }
-        case "searchPokemon": {
-          return { ...prevState, searchTerm: action.payload };
-        }
-      }
-    },
-    { pokemon: [], searchTerm: "" }
-  );
+  const { data: pokemon } = useQuery<Pokemon[]>({
+    queryKey: ["pokemon"],
+    queryFn: () => fetch("/pokemon.json").then((res) => res.json()),
+    initialData: [],
+  });
 
-  useEffect(() => {
-    fetch("/pokemon.json")
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "setPokemon", payload: data }));
-  }, []);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const setSearch = useCallback((value: string) => {
-    dispatch({ type: "searchPokemon", payload: value });
+    setSearchTerm(value);
   }, []);
 
   const filteredPokemon = useMemo(() => {

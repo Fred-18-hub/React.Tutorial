@@ -4,12 +4,13 @@ import UseMemo from "./1_native/UseMemoAndUseCallback";
 import UseEffect from "./1_native/UseEffect";
 import UseRef from "./1_native/UseRef";
 import CustomHookAndContext from "./1_native/CustomHookAndContext";
-import ReactQueryAndReactLocation from "./2_indirect/ReactQueryAndReactLocation";
+import ReactQuery from "./2_indirect/ReactQuery";
+import Zustand from "./3_direct/Zustand/Zustand";
 
 function App() {
   return (
     <>
-      <section id="native" className="hidden">
+      <section id="native">
         <UseState show={false} />
         <br />
         <UseReducer show={false} />
@@ -20,11 +21,15 @@ function App() {
         <br />
         <UseRef show={false} />
         <br />
-        <CustomHookAndContext show={true} />
+        <CustomHookAndContext show={false} />
       </section>
 
       <section id="indirect">
-        <ReactQueryAndReactLocation show={true} />
+        <ReactQuery show={false} />
+      </section>
+
+      <section id="direct">
+        <Zustand show={true} />
       </section>
     </>
   );
